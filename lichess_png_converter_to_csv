@@ -1,0 +1,32 @@
+import chess.pgn
+import csv
+
+# Replace "lichess_Hsouna1.imported.pgn" with the name of your PGN file
+pgn_file = open("lichess_Hsouna1_GAMES.pgn")
+
+# Replace "Hsouna1" with your Lichess username
+csv_file = open("Hsouna1_Lichess_GAMES.csv", "w")
+csv_writer = csv.writer(csv_file)
+
+# Write the headers for the CSV file
+csv_writer.writerow(["Event", "Site", "Date", "Round", "White", "Black", "Result", "ECO"])
+
+while True:
+    game = chess.pgn.read_game(pgn_file)
+    if game is None:
+        break
+
+    headers = dict(game.headers)
+    csv_writer.writerow([
+        headers.get("Event", ""),
+        headers.get("Site", ""),
+        headers.get("Date", ""),
+        headers.get("Round", ""),
+        headers.get("White", ""),
+        headers.get("Black", ""),
+        headers.get("Result", ""),
+        headers.get("ECO", "")
+    ])
+
+pgn_file.close()
+csv_file.close()
